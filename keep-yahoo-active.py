@@ -20,7 +20,7 @@ load_dotenv()
 # Enclose them in functions to be called later
 # Instantiate only at runtime to prevent concurrent runs
 
-yahoo = "mail.yahoo.com"
+yahoo = "https://mail.yahoo.com"
 yahoo_signin = "https://login.yahoo.com/?src=ym"
 yahoo_usr_sel = "input#login-username"
 yahoo_pwd_sel = "input#login-passwd"
