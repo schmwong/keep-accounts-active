@@ -36,7 +36,7 @@ class LoginLogger:
     def one_step_login(self, playwright):
         logger = self.logger
         logger.info("Launching browser")
-        browser = playwright.firefox.launch(headless=False, slow_mo=50)
+        browser = playwright.firefox.launch(headless=True)
         page = browser.new_page()
         page.goto(self.login_url)
         logger.info(f"Retrieving login page '{self.login_url}'")
