@@ -47,6 +47,7 @@ jobs:
               cd login-log
               git sparse-checkout init --cone
               git sparse-checkout set mega
+              cd ..
           - name: Run Python script
             run: |
               export USR_MEGA_1=${{ secrets.USR_MEGA_1 }}
@@ -58,6 +59,7 @@ jobs:
             env:
               WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
             run: |
+              cd login-log
               datestamp=$(date -u +%F)
               git config user.name "${GITHUB_ACTOR}"
               git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
