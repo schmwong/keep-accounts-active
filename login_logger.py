@@ -51,7 +51,7 @@ class LoginLogger:
     def two_step_login(self, playwright):
         logger = self.logger
         logger.info("Launching browser")
-        browser = playwright.firefox.launch(headless=False, slow_mo=50)
+        browser = playwright.firefox.launch(headless=True)
         page = browser.new_page()
         page.goto(self.login_url)
         logger.info(f"Retrieving login page '{self.login_url}'")
@@ -68,7 +68,7 @@ class LoginLogger:
     def iframe_login(self, playwright, frame_locator, **kwargs):
         logger = self.logger
         logger.info("Launching browser")
-        browser = playwright.firefox.launch(headless=False, slow_mo=50)
+        browser = playwright.firefox.launch(headless=True)
         page = browser.new_page()
         page.goto(self.login_url)
         logger.info(f"Retrieving login page '{self.login_url}'")
@@ -81,7 +81,7 @@ class LoginLogger:
         page.wait_for_timeout(2529)
         page.keyboard.press("Enter")
         logger.info("Logging in")
-        page.wait_for_url(self.homepage + "**", wait_until="networkidle")
+        page.wait_for_url(self.homepage + "**", wait_until="domcontentloaded")
         logger.info("Logged in successfully")
         self.tab = page
 
