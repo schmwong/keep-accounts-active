@@ -34,11 +34,19 @@ jobs:
               pip install playwright
               playwright install firefox
               pip install pandas
-              pip install github-clone
           - name: Clone private repo folder
             env:
               WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
-            run: ghclone https://github.com/schmwong/login-log/tree/main/mega -t $WORKFLOW_TOKEN
+            run: |
+              git clone \
+              --depth 1 \
+              --filter=blob:none \
+              --sparse \
+              https://$WORKFLOW_TOKEN@github.com/schmwong/login-log \
+              ;
+              cd login-log
+              git sparse-checkout init --cone
+              git sparse-checkout set mega
           - name: Run Python script
             run: |
               export USR_MEGA_1=${{ secrets.USR_MEGA_1 }}
@@ -56,5 +64,6 @@ jobs:
               git add ./mega
               if ! git diff-index --quiet HEAD; then
                 git commit -m "updated Mega logs for ${datestamp} (manual)" -- ./mega 
-                git push "https://${GITHUB_ACTOR}:$WORKFLOW_TOKEN@github.com/schmwong/login-log.git" HEAD:main || exit 0
+                git push "https://${GITHUB_ACTOR}:$WORKFLOW_TOKEN@github.com/schmwong/login-log.git" \
+                HEAD:main || exit 0
               fi
