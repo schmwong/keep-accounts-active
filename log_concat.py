@@ -19,7 +19,7 @@ import pandas as pd
 def update_logs(instance):
     instance.logger.removeHandler(instance.DuoHandler)
     filename = instance.filename
-    filepath = f"./{filename.split()[1].split('_')[0]}/{filename}"  # ./<folder name>/<filename>
+    filepath = f"./login-log/{filename.split()[1].split('_')[0]}/{filename}"  # ./<folder name>/<filename>
 
     if os.path.exists(filename):
         if os.path.exists(filepath):
