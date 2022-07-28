@@ -57,7 +57,7 @@ class LoginLogger:
         logger.info(f"Retrieving login page '{self.login_url}'")
         page.fill(self.usr_sel, self.usr)
         page.keyboard.press("Enter")
-        page.fill(self.pwd_sel, self.pwd)
+        page.fill(self.pwd_sel, self.pwd, timeout=120_000)
         page.keyboard.press("Enter")
         logger.info("Logging in")
         page.wait_for_url(self.homepage + "**")
