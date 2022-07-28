@@ -10,6 +10,7 @@ import os
 from playwright.sync_api import sync_playwright, TimeoutError
 from logging_formatter import Year
 from login_logger import LoginLogger
+from concat import update_logs
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -97,16 +98,20 @@ def query_onedrive_storage(instance):
 
 def onedrive_login(instance):
     with sync_playwright() as pw:
+        # Browser session to generate new csv log file
         logger = instance.logger
         instance.iframe_login(pw, iframe_sel)
         instance.redirect(href_sel="a.od-QuotaBar-link")
         query_onedrive_storage(instance)
         logger.info("Tasks complete. Closing browser")
-        # Remove FileHandlder to prevent reopening the previous instance's file in the next instance
-        # due to the Class Variable getting recreated during "self.logger.addHandler(self.DuoHandler)"
-        logger.removeHandler(instance.DuoHandler)
+
+    # Remove FileHandlder to prevent reopening the previous instance's file in the next instance
+    # due to the Class Variable getting recreated during "self.logger.addHandler(self.DuoHandler)"
+    logger.removeHandler(instance.DuoHandler)
 
 
 if __name__ == "__main__":
     onedrive_login(onedrive_1())
+    update_logs(onedrive_1())
     onedrive_login(onedrive_2())
+    update_logs(onedrive_2())

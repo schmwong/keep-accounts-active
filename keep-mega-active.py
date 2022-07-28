@@ -15,6 +15,7 @@ import os
 from playwright.sync_api import sync_playwright, TimeoutError
 from logging_formatter import Year
 from login_logger import LoginLogger
+from log_concat import update_logs
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -96,17 +97,21 @@ def query_mega_storage(instance):
 
 
 def mega_login(instance):
+    # Browser session to generate new csv log file
     with sync_playwright() as pw:
         logger = instance.logger
         instance.one_step_login(pw)
         instance.redirect(href_sel="a.dashboard-link")
         query_mega_storage(instance)
         logger.info("Tasks complete. Closing browser")
-        # Remove FileHandlder to prevent reopening the previous instance's file in the next instance
-        # due to the Class Variable getting recreated during "self.logger.addHandler(self.DuoHandler)"
-        logger.removeHandler(instance.DuoHandler)
+
+    # Remove FileHandlder to prevent reopening the previous instance's file in the next instance
+    # due to the Class Variable getting recreated during "self.logger.addHandler(self.DuoHandler)"
+    logger.removeHandler(instance.DuoHandler)
 
 
 if __name__ == "__main__":
     mega_login(mega_1())
+    update_logs(mega_1())
     mega_login(mega_2())
+    update_logs(mega_2())
