@@ -48,7 +48,7 @@ class LoginLogger:
         logger.info("Logged in successfully")
         self.tab = page
 
-    def two_step_login(self, playwright, pwd_page=None):
+    def two_step_login(self, playwright, captcha_page=None, pwd_page=None):
         logger = self.logger
         logger.info("Launching browser")
         browser = playwright.firefox.launch(headless=True)
@@ -57,11 +57,29 @@ class LoginLogger:
         logger.info(f"Retrieving login page '{self.login_url}'")
         page.fill(self.usr_sel, self.usr)
         page.keyboard.press("Enter")
+        if captcha_page is not None:
+            try:
+                page.wait_for_url(
+                    captcha_page + "**", wait_until="domcontentloaded", timeout=10_000
+                )
+                page.keyboard.press("Tab")
+                page.keyboard.press("Tab")
+                page.keyboard.press("Tab")
+                page.keyboard.press("Enter")
+                page.keyboard.press("Tab")
+                page.keyboard.press("Tab")
+                page.keyboard.press("Tab")
+                page.keyboard.press("Enter")
+            except:
+                pass
         if pwd_page is not None:
-            page.wait_for_url(
-                pwd_page + "**", wait_until="domcontentloaded", timeout=120_000
-            )
-        page.fill(self.pwd_sel, self.pwd, timeout=120_000)
+            try:
+                page.wait_for_url(
+                    pwd_page + "**", wait_until="domcontentloaded", timeout=10_000
+                )
+            except:
+                pass
+        page.fill(self.pwd_sel, self.pwd, timeout=10_000)
         page.keyboard.press("Enter")
         logger.info("Logging in")
         page.wait_for_url(self.homepage + "**")

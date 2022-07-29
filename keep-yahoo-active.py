@@ -96,8 +96,9 @@ def yahoo_login(instance):
     # Browser session to generate new csv log file
     with sync_playwright() as pw:
         logger = instance.logger
+        cap_page = "https://login.yahoo.com/account/challenge/recaptcha?src=ym"
         pwd_page = "https://login.yahoo.com/account/challenge/password?src=ym"
-        instance.two_step_login(pw, pwd_page)
+        instance.two_step_login(pw, cap_page, pwd_page)
         instance.redirect(url="https://mail.yahoo.com/d/settings/0")
         query_yahoo_storage(instance)
         logger.info("Tasks complete. Closing browser")
