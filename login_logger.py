@@ -59,9 +59,11 @@ class LoginLogger:
         page.keyboard.press("Enter")
         if captcha_page is not None:
             try:
+                logger.info(f"Waiting for captcha page '{captcha_page}'")
                 page.wait_for_url(
                     captcha_page + "**", wait_until="domcontentloaded", timeout=10_000
                 )
+                logger.info("Attempting to skip captcha")
                 page.keyboard.press("Tab")
                 page.keyboard.press("Tab")
                 page.keyboard.press("Tab")
@@ -71,13 +73,17 @@ class LoginLogger:
                 page.keyboard.press("Tab")
                 page.keyboard.press("Enter")
             except:
+                logger.warning("Captcha page not loaded")
                 pass
         if pwd_page is not None:
             try:
+                logging.info(f"Waiting for password page '{pwd_page}'")
                 page.wait_for_url(
                     pwd_page + "**", wait_until="domcontentloaded", timeout=10_000
                 )
+                logging.info("Password page loaded")
             except:
+                logger.error("Password page not loaded")
                 pass
         page.fill(self.pwd_sel, self.pwd, timeout=10_000)
         page.keyboard.press("Enter")
