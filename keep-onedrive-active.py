@@ -10,7 +10,7 @@ import os
 from playwright.sync_api import sync_playwright, TimeoutError
 from logging_formatter import Year
 from login_logger import LoginLogger
-from concat import update_logs
+from log_concat import update_logs
 from dotenv import load_dotenv
 
 load_dotenv()

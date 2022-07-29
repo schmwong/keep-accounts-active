@@ -1,11 +1,21 @@
-# pip install github-clone
 # pip install pandas
 """
-This script is meant to be run after cloning the relevant folder
-from the private repo that holds the log files
+# This script is meant to be run after cloning the relevant folder
+# from the private repo that holds the log files
+
+# Run following bash commands before calling this module:
+git clone \
+--depth 1 \
+--filter=blob:none \
+--sparse \
+https://$WORKFLOW_TOKEN@github.com/schmwong/login-log \
+;
+cd login-log
+git sparse-checkout init --cone
+git sparse-checkout set <folder name>
+cd ..
+
 """
-# run following bash line before this script:
-### ghclone https://github.com/schmwong/login-log/tree/main/<folder name> -t {{ secrets.WORKFLOW_TOKEN }}
 
 import sys
 
