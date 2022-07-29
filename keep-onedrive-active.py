@@ -25,7 +25,7 @@ onedrive = "https://onedrive.live.com"
 onedrive_signin = "https://onedrive.live.com/about/en-gb/signin/"
 onedrive_usr_sel = "input.form-control"
 onedrive_pwd_sel = "input.form-control"
-onedrive_homepage = "https://onedrive.live.com/?gologin=1&mkt=en%2DGB"
+onedrive_homepage = "https://onedrive.live.com/?id=root"
 iframe_sel = "iframe.SignIn"
 
 
