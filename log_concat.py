@@ -33,10 +33,14 @@ def update_logs(instance):
     filepath = f"./login-log/{filename.split()[1].split('_')[0]}/{filename}"  # ./<folder name>/<filename>
 
     if os.path.exists(filename):
+        # Move csv file to temp folder
+        os.makedirs("./temp", exist_ok=True)
+        temp = f"./temp/{filename}"
+        shutil.move(filename, temp)
         # ----------------------------------------------------------------
         # For debugging new file
         print(f"\n\nReading update file: {filename}...\n\n")
-        with open(filename, "r", newline="", encoding="utf-8") as file:
+        with open(temp, "r", newline="", encoding="utf-8") as file:
             reader = csv.reader(file)
             for row in reader:
                 print(row)
@@ -44,12 +48,12 @@ def update_logs(instance):
         # ----------------------------------------------------------------
         if os.path.exists(filepath):
             df_old = pd.read_csv(filepath, index_col=False, encoding="utf-8")
-            df_update = pd.read_csv(filename, index_col=False, encoding="utf-8")
+            df_update = pd.read_csv(temp, index_col=False, encoding="utf-8")
             df_new = pd.concat([df_old, df_update])
             df_new.drop_duplicates(inplace=True)
             df_new.to_csv(filepath, index=False, encoding="utf-8")
-            os.remove(filename)  # Delete the update file after successful concat
+            shutil.rmtree("./temp")  # Delete the update file after successful concat
         else:
-            shutil.move(filename, filepath)
+            shutil.move(temp, filepath)
     else:
         print("New logs do not exist.")

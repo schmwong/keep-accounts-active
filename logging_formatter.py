@@ -45,17 +45,17 @@ class CsvFormatter(logging.Formatter):
         # Serves as FileHandler
         # ----------------------------- #
         if os.path.isfile(self.filename):
-            # self.csvfile = open(self.filename, "a+", newline="", encoding="utf-8")
+            self.csvfile = open(self.filename, "a+", newline="", encoding="utf-8")
             self.file_writer = csv.DictWriter(
-                open(self.filename, "a+", newline="", encoding="utf-8"),
+                self.csvfile,
                 quoting=csv.QUOTE_ALL,
                 fieldnames=self.fieldnames,
                 extrasaction="ignore",
             )
         else:
-            # self.csvfile = open(self.filename, "w+", newline="", encoding="utf-8")
+            self.csvfile = open(self.filename, "w+", newline="", encoding="utf-8")
             self.file_writer = csv.DictWriter(
-                open(self.filename, "w+", newline="", encoding="utf-8"),
+                self.csvfile,
                 quoting=csv.QUOTE_ALL,
                 fieldnames=self.fieldnames,
                 extrasaction="ignore",

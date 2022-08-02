@@ -107,6 +107,9 @@ def yahoo_login(instance):
     # due to the Class Variable getting recreated during "self.logger.addHandler(self.DuoHandler)"
     logger.removeHandler(instance.DuoHandler)
 
+    # Close csv file in current instance when done with writing logs
+    instance.formatter.csvfile.close()
+
 
 if __name__ == "__main__":
     yahoo_login(yahoo_1())
