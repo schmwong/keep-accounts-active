@@ -37,6 +37,7 @@ def update_logs(instance):
             df_old = pd.read_csv(filepath, index_col=False, encoding="utf-8")
             # ----------------------------------------------------------------
             # For debugging new file
+            print(f"\n\nReading update file: {filename}...\n\n")
             with open(filename, "r", newline="", encoding="utf-8") as file:
                 reader = csv.reader(file)
                 for row in reader:
