@@ -24,6 +24,7 @@ sys.dont_write_bytecode = True
 import os
 import shutil
 import pandas as pd
+import csv
 
 
 def update_logs(instance):
@@ -34,6 +35,13 @@ def update_logs(instance):
     if os.path.exists(filename):
         if os.path.exists(filepath):
             df_old = pd.read_csv(filepath, index_col=False, encoding="utf-8")
+            # ----------------------------------------------------------------
+            # For debugging new file
+            with open(filename, "r", newline="", encoding="utf-8") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    print(row)
+            # ----------------------------------------------------------------
             df_update = pd.read_csv(filename, index_col=False, encoding="utf-8")
             df_new = pd.concat([df_old, df_update])
             df_new.drop_duplicates(inplace=True)
