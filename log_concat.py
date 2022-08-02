@@ -33,11 +33,11 @@ def update_logs(instance):
 
     if os.path.exists(filename):
         if os.path.exists(filepath):
-            df_old = pd.read_csv(filepath, index_col=False)
-            df_update = pd.read_csv(filename, index_col=False)
+            df_old = pd.read_csv(filepath, index_col=False, encoding="utf-8")
+            df_update = pd.read_csv(filename, index_col=False, encoding="utf-8")
             df_new = pd.concat([df_old, df_update])
             df_new.drop_duplicates(inplace=True)
-            df_new.to_csv(filepath, index=False)
+            df_new.to_csv(filepath, index=False, encoding="utf-8")
             os.remove(filename)  # Delete the update file after successful concat
         else:
             shutil.move(filename, filepath)
