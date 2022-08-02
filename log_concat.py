@@ -40,6 +40,7 @@ def update_logs(instance):
             reader = csv.reader(file)
             for row in reader:
                 print(row)
+        print(f"\n-------------- End of file '{filename}' --------------\n\n")
         # ----------------------------------------------------------------
         if os.path.exists(filepath):
             df_old = pd.read_csv(filepath, index_col=False, encoding="utf-8")
