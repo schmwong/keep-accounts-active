@@ -11,11 +11,8 @@ on:
       # account platform name to be reflected in commit message, e.g. OneDrive
       platform-name:
         default: ${{ inputs.folder }}
-      
-      
-  concurrency:
-    group: login-and-schedule
-    cancel-in-progress: false
+        type: string
+    
     
   
   # Workflow level env variables:
