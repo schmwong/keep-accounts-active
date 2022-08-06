@@ -36,6 +36,11 @@ on:
         required: true
         type: string
         
+      # how the caller workflow was triggered (auto or manual)  
+      mode:
+        required: true
+        type: string
+        
       # account platform name to be reflected in commit message, e.g. OneDrive
       platform-name:
         default: ${{ inputs.folder }}
@@ -106,7 +111,7 @@ jobs:
             git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
             git add ./${{ inputs.folder }}
             if ! git diff-index --quiet HEAD; then
-              git commit -m "updated ${{ inputs.platform-name }} logs for ${datestamp} (manual)" -- ./${{ inputs.folder }} 
+              git commit -m "updated ${{ inputs.platform-name }} logs for ${datestamp} (${mode})" -- ./${{ inputs.folder }} 
               git push "https://${GITHUB_ACTOR}:${{ env.WORKFLOW_TOKEN }}@github.com/schmwong/login-log.git" \
               HEAD:main || exit 0
             fi
