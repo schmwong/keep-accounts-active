@@ -37,51 +37,52 @@ env:
     PWD_YAHOO_1: ${{ secrets.PWD_YAHOO_1 }}
     
     
-jobs:
-    login:
-      runs-on: ubuntu-latest
-      
-      steps:
-          - name: Checkout repo content
-            uses: actions/checkout@v3       # checkout repo content of caller workflow to github runner.
 
-          - name: Setup Python
-            uses: actions/setup-python@v2
-            with:
-                python-version: 3.9.6
-                
-          - name: Setup dependencies
-            run: |
-              pip install python-dotenv
-              pip install playwright
-              playwright install firefox
-              pip install pandas
-              
-          - name: Clone private repo folder
-            run: |
-              git clone \
-              --depth 1 \
-              --filter=blob:none \
-              --sparse \
-              https://$WORKFLOW_TOKEN@github.com/schmwong/login-log \
-              ;
-              cd login-log
-              git sparse-checkout init --cone
-              git sparse-checkout set ${{ inputs.folder }}
-              cd ..
-              
-          - name: Run Python script
-            run: python keep-${{ inputs.folder }}-active.py 
-            
-          - name: Commit and push folder to private repo if updated
-            run: |
-              cd login-log
-              datestamp=$(date -u +%F)
-              git config user.name "${GITHUB_ACTOR}"
-              git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-              git add ./${{ inputs.folder }}
-              if ! git diff-index --quiet HEAD; then
-                git commit -m "updated ${{ inputs.platform-name }} logs for ${datestamp} (manual)" -- ./${{ inputs.folder }} 
-                git push "https://${GITHUB_ACTOR}:$WORKFLOW_TOKEN@github.com/schmwong/login-log.git" \
-                HEAD:main || exit 0
-              fi
+jobs:
+  login:
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: Checkout repo content
+          uses: actions/checkout@v3       # checkout repo content of caller workflow to github runner.
+
+        - name: Setup Python
+          uses: actions/setup-python@v2
+          with:
+              python-version: 3.9.6
+
+        - name: Setup dependencies
+          run: |
+            pip install python-dotenv
+            pip install playwright
+            playwright install firefox
+            pip install pandas
+
+        - name: Clone private repo folder
+          run: |
+            git clone \
+            --depth 1 \
+            --filter=blob:none \
+            --sparse \
+            https://$WORKFLOW_TOKEN@github.com/schmwong/login-log \
+            ;
+            cd login-log
+            git sparse-checkout init --cone
+            git sparse-checkout set ${{ inputs.folder }}
+            cd ..
+
+        - name: Run Python script
+          run: python keep-${{ inputs.folder }}-active.py 
+
+        - name: Commit and push folder to private repo if updated
+          run: |
+            cd login-log
+            datestamp=$(date -u +%F)
+            git config user.name "${GITHUB_ACTOR}"
+            git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+            git add ./${{ inputs.folder }}
+            if ! git diff-index --quiet HEAD; then
+              git commit -m "updated ${{ inputs.platform-name }} logs for ${datestamp} (manual)" -- ./${{ inputs.folder }} 
+              git push "https://${GITHUB_ACTOR}:$WORKFLOW_TOKEN@github.com/schmwong/login-log.git" \
+              HEAD:main || exit 0
+            fi
