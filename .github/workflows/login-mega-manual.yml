@@ -11,22 +11,33 @@ concurrency:
 
 
 jobs:
-  call-workflow:
-    runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+  get-folder-name:
+    runs-on: ubuntu-latest
+    
+    # Solution to pass variables between jobs in a workflow without using artifacts
+    # https://user-images.githubusercontent.com/6890249/181096846-f7fdc90f-8d43-4bb9-9290-fefc9ad0bd84.png
+    # by dimisjim on 11 Mar 2021
+    # https://github.com/orgs/community/discussions/26313
+    
+    outputs:
+          output1: ${{ steps.getname.outputs.foldername }}
+    
     steps:
           - name: Get folder name from current workflow name
+            id: getname
             run: |
               read -ra Arr <<< ${{ github.workflow }}
               folder=${Arr[1]}
               echo "folder name is $folder"
-              echo "Calling autolog workflow now"
-              
-          - name: Call autolog workflow
-            uses: schmwong/keep-accounts-active/.github/workflows/reusable/autolog.yml@first-reusable-workflow
-            with:
-              folder: $folder
-              platform-name: Mega
-              secrets: inherit
+              echo "::set-output name=foldername::$folder"
+
+
+  call-workflow:
+    needs: get-folder-name
+    uses: schmwong/keep-accounts-active/.github/workflows/reusable/autolog.yml@first-reusable-workflow
+    with:
+      folder: ${{ needs.get-folder-name.outputs.output1 }}
+      platform-name: Mega
+      secrets: inherit
               
