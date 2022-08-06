@@ -1,3 +1,4 @@
+# This workflow is manually triggered and will call the reusable workflow.
 name: login-mega-manual
 
 
