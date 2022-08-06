@@ -40,5 +40,4 @@ jobs:
     with:
       folder: ${{ needs.get-folder-name.outputs.output1 }}
       platform-name: Mega
-      secrets: inherit
-              
+    
