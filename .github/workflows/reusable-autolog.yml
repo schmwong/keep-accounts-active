@@ -13,10 +13,6 @@ on:
         default: ${{ inputs.folder }}
         type: string
         
-        
-concurrency:
-  group: login-and-schedule
-  cancel-in-progress: false
     
   
 # Workflow level env variables:
