@@ -60,7 +60,7 @@ jobs:
             --depth 1 \
             --filter=blob:none \
             --sparse \
-            https://${{ env.WORKFLOW_TOKEN }}@github.com/schmwong/login-log \
+            https://schmwong:${{ env.WORKFLOW_TOKEN }}@github.com/schmwong/login-log \
             ;
             cd login-log
             git sparse-checkout init --cone
