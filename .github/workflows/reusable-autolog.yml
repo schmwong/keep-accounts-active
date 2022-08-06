@@ -1,4 +1,4 @@
-name: autolog
+name: reusable-autolog
 
 on:
   workflow_call:
@@ -60,7 +60,7 @@ jobs:
             --depth 1 \
             --filter=blob:none \
             --sparse \
-            https://$WORKFLOW_TOKEN@github.com/schmwong/login-log \
+            https://${{ env.WORKFLOW_TOKEN }}@github.com/schmwong/login-log \
             ;
             cd login-log
             git sparse-checkout init --cone
@@ -79,6 +79,6 @@ jobs:
             git add ./${{ inputs.folder }}
             if ! git diff-index --quiet HEAD; then
               git commit -m "updated ${{ inputs.platform-name }} logs for ${datestamp} (manual)" -- ./${{ inputs.folder }} 
-              git push "https://${GITHUB_ACTOR}:$WORKFLOW_TOKEN@github.com/schmwong/login-log.git" \
+              git push "https://${GITHUB_ACTOR}:${{ env.WORKFLOW_TOKEN }}@github.com/schmwong/login-log.git" \
               HEAD:main || exit 0
             fi
