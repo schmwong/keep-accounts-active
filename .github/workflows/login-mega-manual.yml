@@ -37,7 +37,7 @@ jobs:
 
   call-workflow:
     needs: get-folder-name
-    uses: schmwong/keep-accounts-active/.github/workflows/reusable-autolog.yml@first-reusable-workflow
+    uses: ./.github/workflows/reusable-autolog.yml
     with:
       folder: ${{ needs.get-folder-name.outputs.output1 }}
       platform-name: Mega
