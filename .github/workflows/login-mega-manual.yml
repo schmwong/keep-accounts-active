@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
 
-  get-folder-name:
+  workflow-info:
     runs-on: ubuntu-latest
     
     # Solution to pass variables between jobs in a workflow without using artifacts
@@ -23,6 +23,7 @@ jobs:
     
     outputs:
           output1: ${{ steps.getname.outputs.foldername }}
+          output2: ${{ steps.getmode.outputs.modename }}
     
     steps:
           - name: Get folder name from current workflow name
@@ -33,13 +34,21 @@ jobs:
               folder=${Arr[1]}
               echo "folder name is $folder"
               echo "::set-output name=foldername::$folder"
+          
+          - name: Is the workflow manually or automatically triggered?
+            id: getmode
+            run:  |
+              mode=${Arr[2]}
+              echo "Trigger mode: $mode"
+              echo "::set-output name=modename::$mode"
 
 
   call-workflow:
-    needs: get-folder-name
+    needs: workflow-info
     uses: ./.github/workflows/reusable-autolog.yml
     with:
-      folder: ${{ needs.get-folder-name.outputs.output1 }}
+      folder: ${{ needs.workflow-info.outputs.output1 }}
+      mode: ${{ needs.workflow-info.outputs.output2 }}
       platform-name: Mega
     secrets:
       WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
