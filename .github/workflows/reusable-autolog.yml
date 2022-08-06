@@ -12,13 +12,18 @@ on:
       platform-name:
         default: ${{ inputs.folder }}
         type: string
-    
+        
+        
+concurrency:
+  group: login-and-schedule
+  cancel-in-progress: false
     
   
-  # Workflow level env variables:
-  # Declare GitHub Personal Access Token 
-  # and login credentials of each account here
-  env:
+# Workflow level env variables:
+# Declare GitHub Personal Access Token 
+# and login credentials of each account here
+
+env:
     WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
     USR_MEGA_1: ${{ secrets.USR_MEGA_1 }}
     PWD_MEGA_1: ${{ secrets.PWD_MEGA_1 }}
@@ -32,7 +37,7 @@ on:
     PWD_YAHOO_1: ${{ secrets.PWD_YAHOO_1 }}
     
     
-  jobs:
+jobs:
     login:
       runs-on: ubuntu-latest
       
