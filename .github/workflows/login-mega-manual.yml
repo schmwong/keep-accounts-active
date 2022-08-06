@@ -28,7 +28,7 @@ jobs:
           - name: Get folder name from current workflow name
             id: getname
             run: |
-              read -ra Arr <<< ${{ github.workflow }}
+              read -ra Arr <<< ${{ github.workflow.name }}
               folder=${Arr[1]}
               echo "folder name is $folder"
               echo "::set-output name=foldername::$folder"
