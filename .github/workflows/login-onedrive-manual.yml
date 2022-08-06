@@ -1,71 +1,50 @@
-# This is a basic workflow that is manually triggered
-
+# This workflow is manually triggered and will call the reusable workflow.
 name: login-onedrive-manual
 
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
+
 on:
   [workflow_dispatch]
+
 
 concurrency:
   group: login-and-schedule
   cancel-in-progress: false
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "login"
-  login:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+jobs:
+
+  get-folder-name:
+    runs-on: ubuntu-latest
+    
+    # Solution to pass variables between jobs in a workflow without using artifacts
+    # https://user-images.githubusercontent.com/6890249/181096846-f7fdc90f-8d43-4bb9-9290-fefc9ad0bd84.png
+    # by dimisjim on 11 Mar 2021
+    # https://github.com/orgs/community/discussions/26313
+    
+    outputs:
+          output1: ${{ steps.getname.outputs.foldername }}
+    
     steps:
-          - name: Checkout repo content
-            uses: actions/checkout@v3       # checkout the repository content to github runner.
-            with:
-              token: ${{ secrets.WORKFLOW_TOKEN }}
-          - name: Setup Python
-            uses: actions/setup-python@v2
-            with:
-                python-version: 3.9.6
-          - name: Setup dependencies
+          - name: Get folder name from current workflow name
+            id: getname
             run: |
-              pip install python-dotenv
-              pip install playwright
-              playwright install firefox
-              pip install pandas
-          - name: Clone private repo folder
-            env:
-              WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
-            run: |
-              git clone \
-              --depth 1 \
-              --filter=blob:none \
-              --sparse \
-              https://$WORKFLOW_TOKEN@github.com/schmwong/login-log \
-              ;
-              cd login-log
-              git sparse-checkout init --cone
-              git sparse-checkout set onedrive
-              cd ..
-          - name: Run Python script
-            run: |
-              export USR_ONEDRIVE_1=${{ secrets.USR_ONEDRIVE_1 }}
-              export PWD_ONEDRIVE_1=${{ secrets.PWD_ONEDRIVE_1 }}
-              export USR_ONEDRIVE_2=${{ secrets.USR_ONEDRIVE_2 }}
-              export PWD_ONEDRIVE_2=${{ secrets.PWD_ONEDRIVE_2 }}
-              python keep-onedrive-active.py 
-          - name: Commit and push folder to private repo if updated
-            env:
-              WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
-            run: |
-              cd login-log
-              datestamp=$(date -u +%F)
-              git config user.name "${GITHUB_ACTOR}"
-              git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-              git add ./onedrive
-              if ! git diff-index --quiet HEAD; then
-                git commit -m "updated OneDrive logs for ${datestamp} (manual)" -- ./onedrive 
-                git push "https://${GITHUB_ACTOR}:$WORKFLOW_TOKEN@github.com/schmwong/login-log.git" \
-                HEAD:main || exit 0
-              fi
+              IFS=-
+              read -ra Arr <<< ${{ github.workflow }}
+              folder=${Arr[1]}
+              echo "folder name is $folder"
+              echo "::set-output name=foldername::$folder"
+              
+              
+  call-workflow:
+    needs: get-folder-name
+    uses: schmwong/keep-accounts-active/.github/workflows/reusable-autolog.yml@first-reusable-workflow
+    with:
+      folder: ${{ needs.get-folder-name.outputs.output1 }}
+      platform-name: OneDrive
+    secrets:
+      WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
+      USR_ONEDRIVE_1: ${{ secrets.USR_ONEDRIVE_1 }}
+      PWD_ONEDRIVE_1: ${{ secrets.PWD_ONEDRIVE_1 }}
+      USR_ONEDRIVE_2: ${{ secrets.USR_ONEDRIVE_2 }}
+      PWD_ONEDRIVE_2: ${{ secrets.PWD_ONEDRIVE_2 }}
+      
