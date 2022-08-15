@@ -117,15 +117,54 @@ jobs:
             fi
             
             
-  on-success:
+  schedule-maintenance:
     needs: login
-    uses: ./.github/workflows/reusable-reset.yml
-    with:
-      folder: ${{ inputs.folder }}
+    if: always()       # always runs after login job regardless of whether login job succeeded.
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: Checkout repo content
+          uses: actions/checkout@v3
+          with:
+            token: ${{ secrets.WORKFLOW_TOKEN }}
+            
+        - name: Setup Python
+          uses: actions/setup-python@v2
+          with:
+              python-version: 3.8.2
+              
+        - name: Setup dependencies
+          run: pip install ruamel.yaml
+          
+        - name: Run reset schedule script
+          id: reset
+          if: jobs.login.status == 'success'
+          run: |
+              export folder=${{ inputs.folder }}
+              python reset-schedule.py
+          
+        - name: Run reschedule script
+          id: reschedule
+          if: jobs.login.status == 'failure'
+          run: |
+              export folder=${{ inputs.folder }}
+              python reschedule-next-run.py
+              
+        - name: Commit and push modified YAML file
+          env:
+              WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
+          run: |
+              git config user.name "${GITHUB_ACTOR}"
+              git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+              git add -A
+              if ! git diff-index --quiet HEAD; then
+                if ${{ steps.reset.outcome }} == 'success' then
+                  git commit -m "login-${{ inputs.folder }}-auto back to normal schedule"
+                fi
+                if ${{ steps.reschedule.outcome }} == 'success' then
+                  git commit -m "rescheduled login-${{ inputs.folder }}-auto"
+                fi
+                git push "https://${GITHUB_ACTOR}:$WORKFLOW_TOKEN@github.com/${GITHUB_REPOSITORY}.git" HEAD:main || exit 0
+              fi
     
-    
-  on-failure:
-    if: ${{ login.status == 'failure' }}
-    uses: ./.github/workflows/reusable-reschedule.yml
-    with:
-      folder: ${{ inputs.folder }}
+# EOF
