@@ -138,14 +138,14 @@ jobs:
           
         - name: Run reset schedule script
           id: reset
-          if: jobs.login.status == 'success'
+          if: needs.login.result == 'success'
           run: |
               export folder=${{ inputs.folder }}
               python reset-schedule.py
           
         - name: Run reschedule script
           id: reschedule
-          if: jobs.login.status == 'failure'
+          if: needs.login.result == 'failure'
           run: |
               export folder=${{ inputs.folder }}
               python reschedule-next-run.py
