@@ -158,10 +158,10 @@ jobs:
               git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
               git add -A
               if ! git diff-index --quiet HEAD; then
-                if ${{ steps.reset.outcome }} == 'success' then
+                if ${{ steps.reset.outcome }} == 'success'; then
                   git commit -m "login-${{ inputs.folder }}-auto back to normal schedule"
                 fi
-                if ${{ steps.reschedule.outcome }} == 'success' then
+                if ${{ steps.reschedule.outcome }} == 'success'; then
                   git commit -m "rescheduled login-${{ inputs.folder }}-auto"
                 fi
                 git push "https://${GITHUB_ACTOR}:$WORKFLOW_TOKEN@github.com/${GITHUB_REPOSITORY}.git" HEAD:main || exit 0
