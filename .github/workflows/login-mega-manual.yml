@@ -38,6 +38,8 @@ jobs:
           - name: Is the workflow manually or automatically triggered?
             id: getmode
             run:  |
+              IFS=-
+              read -ra Arr <<< ${{ github.workflow }}
               mode=${Arr[2]}
               echo "Trigger mode: $mode"
               echo "::set-output name=modename::$mode"
