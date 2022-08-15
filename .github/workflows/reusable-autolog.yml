@@ -115,3 +115,17 @@ jobs:
               git push "https://${GITHUB_ACTOR}:${{ env.WORKFLOW_TOKEN }}@github.com/schmwong/login-log.git" \
               HEAD:main || exit 0
             fi
+            
+            
+  on-success:
+    needs: login
+    uses: ./.github/workflows/reusable-reset.yml
+    with:
+      folder: ${{ inputs.folder }}
+    
+    
+  on-failure:
+    if: ${{ login.status == 'failure' }}
+    uses: ./.github/workflows/reusable-reschedule.yml
+    with:
+      folder: ${{ inputs.folder }}
