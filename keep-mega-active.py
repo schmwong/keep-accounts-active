@@ -73,7 +73,7 @@ def query_mega_storage(instance):
     page = instance.tab
     logger = instance.logger
 
-    page.wait_for_selector("tr:nth-child(7) > td:nth-child(1) > span")
+    page.wait_for_selector("div.account.left-pane.info-block.backup-button")
     page.wait_for_load_state("networkidle")
 
     name = page.query_selector("div.membership-big-txt.name").inner_text()
