@@ -1,9 +1,10 @@
-# This workflow is manually triggered and will call the reusable workflow.
-name: login-mega-manual
+# This workflow is automatically triggered and will call the reusable workflow.
+name: login-onedrive-auto
 
 
 on:
-  [workflow_dispatch]
+  schedule:
+    - cron: 26 06 * * *           # runs once a day at 06:26 UTC (14:26 SGT)
 
 
 concurrency:
@@ -43,19 +44,19 @@ jobs:
               mode=${Arr[2]}
               echo "Trigger mode: $mode"
               echo "::set-output name=modename::$mode"
-
-
+              
+              
   call-workflow:
     needs: workflow-info
     uses: ./.github/workflows/reusable-autolog.yml
     with:
       folder: ${{ needs.workflow-info.outputs.output1 }}
       mode: ${{ needs.workflow-info.outputs.output2 }}
-      platform-name: Mega
+      platform-name: OneDrive
     secrets:
       WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
-      USR_MEGA_1: ${{ secrets.USR_MEGA_1 }}
-      PWD_MEGA_1: ${{ secrets.PWD_MEGA_1 }}
-      USR_MEGA_2: ${{ secrets.USR_MEGA_2 }}
-      PWD_MEGA_2: ${{ secrets.PWD_MEGA_2 }}
-    
+      USR_ONEDRIVE_1: ${{ secrets.USR_ONEDRIVE_1 }}
+      PWD_ONEDRIVE_1: ${{ secrets.PWD_ONEDRIVE_1 }}
+      USR_ONEDRIVE_2: ${{ secrets.USR_ONEDRIVE_2 }}
+      PWD_ONEDRIVE_2: ${{ secrets.PWD_ONEDRIVE_2 }}
+      
