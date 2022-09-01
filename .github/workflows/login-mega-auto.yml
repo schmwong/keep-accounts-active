@@ -4,7 +4,7 @@ name: login-mega-auto
 
 on:
   schedule:
-  - cron: 39 07 * * *             # runs once a day at 06:39 UTC (14:39 SGT)
+  - cron: 39 08 * * *             # runs once a day at 06:39 UTC (14:39 SGT)
 
 
 
