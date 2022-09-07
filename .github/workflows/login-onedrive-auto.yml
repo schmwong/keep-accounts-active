@@ -55,8 +55,5 @@ jobs:
       platform-name: OneDrive
     secrets:
       WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
-      USR_ONEDRIVE_1: ${{ secrets.USR_ONEDRIVE_1 }}
-      PWD_ONEDRIVE_1: ${{ secrets.PWD_ONEDRIVE_1 }}
-      USR_ONEDRIVE_2: ${{ secrets.USR_ONEDRIVE_2 }}
-      PWD_ONEDRIVE_2: ${{ secrets.PWD_ONEDRIVE_2 }}
+      ONEDRIVE: ${{ secrets.ONEDRIVE }}
       
