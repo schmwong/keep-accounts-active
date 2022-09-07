@@ -55,7 +55,4 @@ jobs:
       platform-name: Mega
     secrets:
       WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
-      USR_MEGA_1: ${{ secrets.USR_MEGA_1 }}
-      PWD_MEGA_1: ${{ secrets.PWD_MEGA_1 }}
-      USR_MEGA_2: ${{ secrets.USR_MEGA_2 }}
-      PWD_MEGA_2: ${{ secrets.PWD_MEGA_2 }}
+      MEGA: ${{ secrets.MEGA }}

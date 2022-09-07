@@ -12,14 +12,19 @@ from logging_formatter import Year
 from login_logger import LoginLogger
 from log_concat import update_logs
 from dotenv import load_dotenv
+import json
 
 load_dotenv()
 
 
 # ----------------------------------- #
-# Initialising Microsoft OneDrive instances
-# Enclose them in functions to be called later
-# Instantiate only at runtime to prevent concurrent runs
+# Pulling OneDrive login credentials from GitHub secrets
+# {user1: password1, user2: password2, user3: password3}
+
+# Converting JSON string to python dictionary,
+# will be looped through
+cred_dict = json.loads(os.getenv("ONEDRIVE"))
+
 
 onedrive = "https://onedrive.live.com"
 onedrive_signin = "https://onedrive.live.com/about/en-gb/signin/"
@@ -32,34 +37,6 @@ iframe_sel = "iframe.SignIn"
 def mkfilename(a):
     filename = f"[{Year}] {a} log.csv"
     return filename
-
-
-def onedrive_1():
-    instance = LoginLogger(
-        base_url=onedrive,
-        login_url=onedrive_signin,
-        usr_sel=onedrive_usr_sel,
-        usr=os.getenv("USR_ONEDRIVE_1"),
-        pwd_sel=onedrive_pwd_sel,
-        pwd=os.getenv("PWD_ONEDRIVE_1"),
-        homepage=onedrive_homepage,
-        filename=mkfilename("onedrive_1"),
-    )
-    return instance
-
-
-def onedrive_2():
-    instance = LoginLogger(
-        base_url=onedrive,
-        login_url=onedrive_signin,
-        usr_sel=onedrive_usr_sel,
-        usr=os.getenv("USR_ONEDRIVE_2"),
-        pwd_sel=onedrive_pwd_sel,
-        pwd=os.getenv("PWD_ONEDRIVE_2"),
-        homepage=onedrive_homepage,
-        filename=mkfilename("onedrive_2"),
-    )
-    return instance
 
 
 #
@@ -114,7 +91,18 @@ def onedrive_login(instance):
 
 
 if __name__ == "__main__":
-    onedrive_login(onedrive_1())
-    update_logs(onedrive_1())
-    onedrive_login(onedrive_2())
-    update_logs(onedrive_2())
+    i = 1
+    for user in cred_dict:
+        instance = LoginLogger(
+            base_url=onedrive,
+            login_url=onedrive_signin,
+            usr_sel=onedrive_usr_sel,
+            usr=user,
+            pwd_sel=onedrive_pwd_sel,
+            pwd=cred_dict[user],
+            homepage=onedrive_homepage,
+            filename=mkfilename(f"onedrive_{i}"),
+        )
+        onedrive_login(instance)
+        update_logs(instance)
+        i += 1

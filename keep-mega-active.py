@@ -17,12 +17,19 @@ from logging_formatter import Year
 from login_logger import LoginLogger
 from log_concat import update_logs
 from dotenv import load_dotenv
+import json
 
 load_dotenv()
 
 
 # ----------------------------------- #
-# Initialising Mega.NZ instances
+# Pulling Mega.NZ login credentials from GitHub secrets
+# {user1: password1, user2: password2, user3: password3}
+
+# Converting JSON string to python dictionary,
+# will be looped through
+cred_dict = json.loads(os.getenv("MEGA"))
+
 
 mega = "https://mega.nz"
 mega_signin = mega + "/login"
@@ -36,34 +43,8 @@ def mkfilename(a):
     return filename
 
 
-def mega_1():
-    instance = LoginLogger(
-        base_url=mega,
-        login_url=mega_signin,
-        usr_sel=mega_usr_sel,
-        usr=os.getenv("USR_MEGA_1"),
-        pwd_sel=mega_pwd_sel,
-        pwd=os.getenv("PWD_MEGA_1"),
-        homepage=mega_homepage,
-        filename=mkfilename("mega_1"),
-    )
-    return instance
-
-
-def mega_2():
-    instance = LoginLogger(
-        base_url=mega,
-        login_url=mega_signin,
-        usr_sel=mega_usr_sel,
-        usr=os.getenv("USR_MEGA_2"),
-        pwd_sel=mega_pwd_sel,
-        pwd=os.getenv("PWD_MEGA_2"),
-        homepage=mega_homepage,
-        filename=mkfilename("mega_2"),
-    )
-    return instance
-    #
-    # ----------------------------------- #
+#
+# ----------------------------------- #
 
 
 # =================================== #
@@ -114,7 +95,18 @@ def mega_login(instance):
 
 
 if __name__ == "__main__":
-    mega_login(mega_1())
-    update_logs(mega_1())
-    mega_login(mega_2())
-    update_logs(mega_2())
+    i = 1
+    for user in cred_dict:
+        instance = LoginLogger(
+            base_url=mega,
+            login_url=mega_signin,
+            usr_sel=mega_usr_sel,
+            usr=user,
+            pwd_sel=mega_pwd_sel,
+            pwd=cred_dict[user],
+            homepage=mega_homepage,
+            filename=mkfilename(f"mega_{i}"),
+        )
+        mega_login(instance)
+        update_logs(instance)
+        i += 1
