@@ -76,7 +76,7 @@ jobs:
             --depth 1 \
             --filter=blob:none \
             --sparse \
-            https://"${GITHUB_REPOSITORY_OWNER}":${{ env.WORKFLOW_TOKEN }}@github.com/${GITHUB_REPOSITORY_OWNER}/login-log \
+            https://${GITHUB_ACTOR}:${{ env.WORKFLOW_TOKEN }}@github.com/${GITHUB_REPOSITORY_OWNER}/login-log \
             ;
             cd login-log
             git sparse-checkout init --cone
@@ -95,7 +95,7 @@ jobs:
             git add ./${{ inputs.folder }}
             if ! git diff-index --quiet HEAD; then
               git commit -m "updated ${{ inputs.platform-name }} logs for ${datestamp} (${{ inputs.mode }})" -- ./${{ inputs.folder }} 
-              git push "https://${GITHUB_REPOSITORY_OWNER}:${{ env.WORKFLOW_TOKEN }}@github.com/${GITHUB_REPOSITORY_OWNER}/login-log.git" \
+              git push "https://${GITHUB_ACTOR}:${{ env.WORKFLOW_TOKEN }}@github.com/${GITHUB_REPOSITORY_OWNER}/login-log.git" \
               HEAD:main || exit 0
             fi
             
@@ -147,7 +147,7 @@ jobs:
                 elif [[ ${{ steps.reschedule.outcome }} == 'success' ]]; then
                   git commit -m "rescheduled login-${{ inputs.folder }}-auto"
                 fi
-                git push "https://${GITHUB_REPOSITORY_OWNER}:$WORKFLOW_TOKEN@github.com/${GITHUB_REPOSITORY}.git" HEAD:main || exit 0
+                git push "https://${GITHUB_ACTOR}:${WORKFLOW_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main || exit 0
               fi
     
 # EOF
