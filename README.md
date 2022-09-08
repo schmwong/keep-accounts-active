@@ -108,48 +108,60 @@ For greater clarity, we will be using the MEGA platform as an example to illustr
 
 ### Prepare the <em>env</em> variables on your local machine
 
-1. Save login credentials in a csv file in the following format. One csv file per cloud platform. Note that column headers must be named USR and PWD.
-
-   <img src="./assets/login-credentials-csv.png" align="left"/>
-
-2. Save this script <a href="./run-on-local/csv-to-json.py"><code>csv-to-json.py</code></a> to a new folder, and move the csv file into the folder. Run the script. It should output a text file containing a single JSON string.
-
-3. Copy and paste the JSON string into a new repository secret with a name of your choice on GitHub.
-
-   <img src="./assets/login-credentials-secret.png" align=left />
-
-4. You will need a Personal Access Token with no expiration date and with permissions enabled for <b>repo</b> and <b>workflow</b>. Modify your existing token or create a new one <a href="https://github.com/settings/tokens">here</a>. Copy and paste your token's value in a new repository secret called <code>WORKFLOW_TOKEN</code>.
-
-   <img src="./assets/PAT-permissions.png" align="left" />
+<ol>
+	<li>
+		Save login credentials in a csv file in the following format. One csv file per cloud platform. Note that column headers must be named USR and PWD.
+		<div><img src="./assets/login-credentials-csv.png" /></div>
+	</li>
+	<li>
+		Save this script <a href="./run-on-local/csv-to-json.py"><code>csv-to-json.py</code></a> to a new folder, and move the csv file into the folder. Run the script. It should output a text file containing a single JSON string.
+	</li>
+	<li>
+		Copy and paste the JSON string into a new repository secret with a name of your choice on GitHub.
+		<img src="./assets/login-credentials-secret.png" />
+	</li>
+	<li>
+		You will need a Personal Access Token with no expiration date and with permissions enabled for <b>repo</b> and <b>workflow</b>. Modify your existing token or create a new one <a href="https://github.com/settings/tokens">here</a>. Copy and paste your token's value in a new repository secret called <code>WORKFLOW_TOKEN</code>.
+		<img src="./assets/PAT-permissions.png" />
+	</li>
+</ol>
 
 <br/>
 
 ### Prepare your private repository on GitHub
 
-1. Create a new private repository called <b>login-log</b> (you may choose another name but it will require  modifying <a href=".github/workflows/reusable-autolog.yml"><code>reusable-autolog.yml</code></a>).
-
-2. In your private repository, create a new folder for each platform, and in it create an empty <code>.gitkeep</code> file (because GitHub does not allow empty folders).
-
-   <img src="./assets/gitkeep.png" align="left" />
+<ol>
+	<li>
+		Create a new private repository called <b>login-log</b> (you may choose another name but it will require  modifying <a href=".github/workflows/reusable-autolog.yml"><code>reusable-autolog.yml</code></a>).
+	</li>
+	<li>
+		In your private repository, create a new folder for each platform, and in it create an empty <code>.gitkeep</code> file (because GitHub does not allow empty folders).
+		<div><img src="./assets/gitkeep.png" /></div>
+	</li>
+</ol>
 
 <br/>
 
 ### Configure your workflow files
 
-1. Ensure that the correct secrets are passed from the caller workflow. The `WORKFLOW_TOKEN` secret is needed to update the private repo as well as the cron value of the caller workflow.
-
-2. Take care to name the caller workflow file appropriately; its middle name corresponds to the folder to be updated on the private repository. (Of course, you could also hard code the name yourself by directly modifying the `folder` context instead of relying on the Bash output.)
-
-   <img src="./assets/caller-workflow-params.png" align="left" />
-
-3. Ensure that the same secrets and inputs are passed into the reusable workflow <a href=".github/workflows/reusable-autolog.yml"><code>reusable-autolog.yml</code></a>. It passes secrets from all platforms to its `env` context.
-
-   <div>
-   	<img src="./assets/reusable-workflow-secrets.png" />
-   	<img src="./assets/reusable-workflow-env.png" />
-   </div>
-
-4. Do a test run using a manual caller workflow, such as `login-mega-manual.yml`. Take note of the log output in the console to ensure all steps run as expected.
+<ol>
+	<li>
+		Ensure that the correct secrets are passed from the caller workflow. The <code>WORKFLOW_TOKEN</code> secret is needed to update the private repo as well as the cron value of the caller workflow.
+	</li>
+	<li>
+		Take care to name the caller workflow file appropriately; its middle name corresponds to the folder to be updated on the private repository. (Of course, you could also hard code the name yourself by directly modifying the <code>folder</code> context in the yml file instead of relying on the Bash output.)
+	<div><img src="./assets/caller-workflow-params.png" /></div>
+	</li>
+	<li>
+		Ensure that the same secrets and inputs are passed into the reusable workflow <a href=".github/workflows/reusable-autolog.yml"><code>reusable-autolog.yml</code></a>. It passes secrets from all platforms to its <code>env</code> context.
+		<div>
+			<img src="./assets/reusable-workflow-secrets.png" />
+			<img src="./assets/reusable-workflow-env.png" />
+		</div>
+	</li>
+	<li>
+		Do a test run using a manual caller workflow, such as <code>login-mega-manual.yml</code>. Take note of the log output in the console to ensure all steps run as expected.
+	</li>
 
 <br/>
 
