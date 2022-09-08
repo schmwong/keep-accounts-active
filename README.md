@@ -118,11 +118,11 @@ For greater clarity, we will be using the MEGA platform as an example to illustr
 	</li>
 	<li>
 		Copy and paste the JSON string into a new repository secret with a name of your choice on GitHub.
-		<img src="./assets/login-credentials-secret.png" />
+		<div><img src="./assets/login-credentials-secret.png" /></div>
 	</li>
 	<li>
 		You will need a Personal Access Token with no expiration date and with permissions enabled for <b>repo</b> and <b>workflow</b>. Modify your existing token or create a new one <a href="https://github.com/settings/tokens">here</a>. Copy and paste your token's value in a new repository secret called <code>WORKFLOW_TOKEN</code>.
-		<img src="./assets/PAT-permissions.png" />
+		<div><img src="./assets/PAT-permissions.png" /></div>
 	</li>
 </ol>
 
