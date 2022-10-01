@@ -39,7 +39,7 @@ class LoginLogger:
     def one_step_login(self, playwright, button=None):
         logger = self.logger
         logger.info("Launching browser")
-        browser = playwright.firefox.launch(args=["--start-maximized"], headless=True)
+        browser = playwright.firefox.launch(args=["--start-maximized"], headless=False)
         page = browser.new_page(no_viewport=True)
         page.route(
             "**/*",
@@ -54,26 +54,24 @@ class LoginLogger:
         logger.info(f"Retrieving login page '{self.login_url}'")
         page.fill(self.usr_sel, self.usr)
         page.fill(self.pwd_sel, self.pwd)
-        logger.info(f"Currently at '{page.url}'")
         if button is not None:
+            page.wait_for_selector(button)
             if page.locator(button).is_enabled():
                 try:
                     page.click(button)
+                    page.keyboard.press("Enter")
                     page.keyboard.press("Enter")
                     logger.info("Logging in")
                 except:
                     logger.error("Login button error")
             else:
                 page.keyboard.press("Enter")
+                page.keyboard.press("Enter")
                 logger.info("Logging in")
         else:
             page.keyboard.press("Enter")
+            page.keyboard.press("Enter")
             logger.info("Logging in")
-        sleep(6)
-        logger.info(f"Currently at '{page.url}'")
-        sleep(60)
-        logger.info(f"Currently at '{page.url}'")
-        logger.info(response.json())
         page.wait_for_url(self.homepage, wait_until="domcontentloaded", timeout=120_000)
         logger.info("Logged in successfully")
         self.tab = page
