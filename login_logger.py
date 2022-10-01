@@ -5,6 +5,7 @@ sys.dont_write_bytecode = True
 import os
 import logging
 from logging_formatter import CsvFormatter
+from time import sleep
 
 
 class LoginLogger:
@@ -51,6 +52,7 @@ class LoginLogger:
         logger.info(f"Retrieving login page '{self.login_url}'")
         page.fill(self.usr_sel, self.usr)
         page.fill(self.pwd_sel, self.pwd)
+        logger.info(f"Currently at '{page.url}'")
         if button is not None:
             if page.locator(button).is_enabled():
                 try:
@@ -60,12 +62,13 @@ class LoginLogger:
                 except:
                     logger.error("Login button error")
             else:
-                page.click(button)
                 page.keyboard.press("Enter")
                 logger.info("Logging in")
         else:
             page.keyboard.press("Enter")
             logger.info("Logging in")
+        sleep(6)
+        logger.info(f"Currently at '{page.url}'")
         page.wait_for_url(self.homepage, wait_until="domcontentloaded", timeout=120_000)
         logger.info("Logged in successfully")
         self.tab = page
