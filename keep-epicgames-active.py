@@ -2,6 +2,7 @@
 # playwright install firefox
 # pip install python-dotenv
 # pip install rapidfuzz==2.0.11
+# pip install requests
 
 """
 Assumes that page upon login is the account profile page
