@@ -32,6 +32,7 @@ with open(workflow_file, "r") as file:
         else:
             new_hour = str(new_hour)
         cron[1] = new_hour
+        cron[-1] = "*"
         cron = " ".join(cron)
         schedule["cron"] = cron
         new_cron.append(cron)
