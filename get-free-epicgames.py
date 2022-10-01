@@ -32,7 +32,7 @@ What this script does
             showNavigation=true
         Slug:
             /purchase/payment-methods
-            
+
     Example: purchase page for Runbow
         https://store.epicgames.com/purchase?offers=1-aa7c3e6b5a2a4ca8962270c15bddb861-d98bc011d00a4323b2c49c7dc9d75969&orderId&purchaseToken&showNavigation=true#/purchase/payment-methods
 """
@@ -177,7 +177,7 @@ def redeem_free_games(instance):
                     f"https://store.epicgames.com/purchase?offers=1-{game_dict['namespace']}-{game_dict['id']}&orderId&purchaseToken&showNavigation=true#/purchase/payment-methods"
                 )
                 order_button = "div.payment-order-confirm > button"
-                # page.click(order_button)
+                page.click(order_button)
 
                 sleep(10)
 
