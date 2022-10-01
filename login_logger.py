@@ -1,4 +1,5 @@
 import sys
+from urllib import response
 
 sys.dont_write_bytecode = True
 
@@ -6,6 +7,7 @@ import os
 import logging
 from logging_formatter import CsvFormatter
 from time import sleep
+import json
 
 
 class LoginLogger:
@@ -69,6 +71,9 @@ class LoginLogger:
             logger.info("Logging in")
         sleep(6)
         logger.info(f"Currently at '{page.url}'")
+        sleep(60)
+        logger.info(f"Currently at '{page.url}'")
+        logger.info(response.json())
         page.wait_for_url(self.homepage, wait_until="domcontentloaded", timeout=120_000)
         logger.info("Logged in successfully")
         self.tab = page
