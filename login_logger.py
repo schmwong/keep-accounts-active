@@ -33,17 +33,28 @@ class LoginLogger:
         self.DuoHandler.setFormatter(self.formatter)
         self.logger.addHandler(self.DuoHandler)
 
-    def one_step_login(self, playwright):
+    def one_step_login(self, playwright, button=None):
         logger = self.logger
         logger.info("Launching browser")
-        browser = playwright.firefox.launch(headless=True)
-        page = browser.new_page()
+        browser = playwright.firefox.launch(args=["--start-maximized"], headless=True)
+        page = browser.new_page(no_viewport=True)
         page.goto(self.login_url)
         logger.info(f"Retrieving login page '{self.login_url}'")
         page.fill(self.usr_sel, self.usr)
         page.fill(self.pwd_sel, self.pwd)
-        page.keyboard.press("Enter")
-        logger.info("Logging in")
+        if button is not None:
+            if page.locator(button).is_enabled():
+                try:
+                    page.keyboard.press("Enter")
+                    logger.info("Logging in")
+                except:
+                    logger.error("Login button error")
+            else:
+                page.click(button)
+                logger.info("Logging in")
+        else:
+            page.keyboard.press("Enter")
+            logger.info("Logging in")
         page.wait_for_url(self.homepage, wait_until="domcontentloaded", timeout=120_000)
         logger.info("Logged in successfully")
         self.tab = page
