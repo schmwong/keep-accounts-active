@@ -72,6 +72,8 @@ jobs:
             pip install playwright
             playwright install firefox
             pip install pandas
+            pip install rapidfuzz==2.0.11
+            pip install requests
 
         - name: Clone private repo folder
           run: |
