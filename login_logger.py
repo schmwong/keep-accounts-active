@@ -39,7 +39,7 @@ class LoginLogger:
     def one_step_login(self, playwright, button=None):
         logger = self.logger
         logger.info("Launching browser")
-        browser = playwright.firefox.launch(args=["--start-maximized"], headless=False)
+        browser = playwright.firefox.launch(args=["--start-maximized"], headless=True)
         page = browser.new_page(no_viewport=True)
         page.route(
             "**/*",
