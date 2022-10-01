@@ -4,7 +4,7 @@ name: login-epicgames-auto
 
 on:
   schedule:
-  - cron: 11 05 * * *               # runs every Friday at 03:11 UTC (23:11 EST)
+  - cron: 11 06 * * *               # runs every Friday at 03:11 UTC (23:11 EST)
 
 
 concurrency:
