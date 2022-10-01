@@ -45,12 +45,14 @@ class LoginLogger:
         if button is not None:
             if page.locator(button).is_enabled():
                 try:
+                    page.click(button)
                     page.keyboard.press("Enter")
                     logger.info("Logging in")
                 except:
                     logger.error("Login button error")
             else:
                 page.click(button)
+                page.keyboard.press("Enter")
                 logger.info("Logging in")
         else:
             page.keyboard.press("Enter")
