@@ -86,47 +86,47 @@ def mkfilename(a):
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # Script to retrieve game data from API
 #
-def get_game_data():
-    print()
-    print("=" * 50)
-    print("\nRetrieving game data before starting Playwright\n\n")
+# def get_game_data():
+print()
+print("=" * 50)
+print("\nRetrieving game data before starting Playwright\n\n")
 
-    api = "https://store-site-backend-static-ipv4.ak.epicgames.com/freeGamesPromotions?locale=en-US"
+api = "https://store-site-backend-static-ipv4.ak.epicgames.com/freeGamesPromotions?locale=en-US"
 
-    headers = {
-        "Access-Control-Allow-Origin": "https://store.epicgames.com",
-        "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Max-Age": "86400",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
-        "Accept": "application/json; charset=utf-8",
-    }
+headers = {
+    "Access-Control-Allow-Origin": "https://store.epicgames.com",
+    "Access-Control-Allow-Methods": "GET",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Max-Age": "86400",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
+    "Accept": "application/json; charset=utf-8",
+}
 
-    response = requests.get(api, headers=headers).json()
+response = requests.get(api, headers=headers).json()
 
-    games = response["data"]["Catalog"]["searchStore"]["elements"]
+games = response["data"]["Catalog"]["searchStore"]["elements"]
 
-    title_list = []
-    product_list = []
+title_list = []
+product_list = []
 
-    print("Games found in API\n")
+print("Games found in API\n")
 
-    j = 1
-    for game in games:
-        product = {}
-        product["title"] = game["title"]
-        product["namespace"] = game["namespace"]
-        product["id"] = game["id"]
-        title_list.append(product["title"])
-        product_list.append(product)
-        print(f"\n{j}. {product}\n")
-        j += 1
+j = 1
+for game in games:
+    product = {}
+    product["title"] = game["title"]
+    product["namespace"] = game["namespace"]
+    product["id"] = game["id"]
+    title_list.append(product["title"])
+    product_list.append(product)
+    print(f"\n{j}. {product}\n")
+    j += 1
 
-    print()
-    print("=" * 50)
-    print()
+print()
+print("=" * 50)
+print()
 
-    return (title_list, product_list)
+# return (title_list, product_list)
 
 
 # Function to search for game by name
@@ -242,9 +242,9 @@ def epic_login(instance):
 
 
 if __name__ == "__main__":
-    game_data = get_game_data()
-    title_list = game_data[0]
-    product_list = game_data[1]
+    # game_data = get_game_data()
+    # title_list = game_data[0]
+    # product_list = game_data[1]
     i = 1
     print("\n\nBegin logging\n")
     for user in cred_dict:
