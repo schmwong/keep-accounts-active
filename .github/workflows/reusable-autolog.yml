@@ -7,6 +7,8 @@ on:
       WORKFLOW_TOKEN:
         required: true
       
+      EPICGAMES:
+        required: false
       MEGA:
         required: false
       ONEDRIVE:
@@ -43,6 +45,7 @@ on:
 
 env:
     WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
+    EPICGAMES: ${{ secrets.EPICGAMES }}
     MEGA: ${{ secrets.MEGA }}
     ONEDRIVE: ${{ secrets.ONEDRIVE }}
     USR_YAHOO_1: ${{ secrets.USR_YAHOO_1 }}
