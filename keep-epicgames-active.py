@@ -217,7 +217,7 @@ def redeem_free_games(instance):
                 #     )
                 # ++++++
         elif "in library" in page.query_selector(button).inner_text().lower():
-            logger.debug(f"Game already in library: {name}")
+            logger.debug(f"Game already in library: {title}")
 
     #
     # =================================== #

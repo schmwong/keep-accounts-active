@@ -38,6 +38,15 @@ class LoginLogger:
         logger.info("Launching browser")
         browser = playwright.firefox.launch(args=["--start-maximized"], headless=True)
         page = browser.new_page(no_viewport=True)
+        page.route(
+            "**/*",
+            lambda route: route.abort()
+            if (
+                route.request.resource_type == "image"
+                or route.request.resource_type == "media"
+            )
+            else route.continue_(),
+        )
         page.goto(self.login_url)
         logger.info(f"Retrieving login page '{self.login_url}'")
         page.fill(self.usr_sel, self.usr)
