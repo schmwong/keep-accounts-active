@@ -68,7 +68,7 @@ cred_dict = json.loads(os.getenv("EPICGAMES"))
 
 
 epic = "https://www.epicgames.com"
-epic_signin = epic + "/id/login/epic"
+epic_signin = epic + "/id/login/epic?lang=en-US&noHostRedirect=true"
 epic_usr_sel = "input#email"
 epic_pwd_sel = "input#password"
 epic_homepage = epic + "/account/personal"
