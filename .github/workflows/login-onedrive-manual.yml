@@ -50,7 +50,7 @@ jobs:
     uses: ./.github/workflows/reusable-autolog.yml
     with:
       folder: ${{ needs.get-folder-name.outputs.output1 }}
-      mode: ${{ needs.workflow-info.outputs.output2 }}
+      mode: ${{ needs.get-folder-name.outputs.output2 }}
       platform-name: OneDrive
     secrets:
       WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
