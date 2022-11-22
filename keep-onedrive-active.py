@@ -59,11 +59,27 @@ def query_onedrive_storage(instance):
     email = instance.usr
 
     plan = page.query_selector(
-        """div:nth-child(5) > table > tbody > tr.StorageInfo-plans-row > td.StorageInfo-plans-type-text-cell > span > span"""
+        """div:nth-child(5) > table > tbody > tr:nth-child(1) > td[class*='storageInfoPlansTypeTextCell'] > span > span"""
     ).inner_text()
 
-    storage_name = page.query_selector("div.StorageInfo-totalUsed").inner_text()
-    storage_used = page.query_selector("div.od-quota-progress-bar-main").inner_text()
+    storage_name = page.query_selector(
+        'div[class*="storageInfoTotalUsed"]'
+    ).inner_text()
+
+    storage_used = page.query_selector(
+        'div[class*="progressBarDescription_"] > span'
+    ).inner_text()
+
+    # Future work: Scraping info from API endpoint instead of rendered webpage
+    #
+    # except:
+    #     context_uri = ""
+    #     context_headers = {"accept": "application/json"}
+    #     storage_uri = "https://skyapi.onedrive.live.com/API/2/GetStorageInfo?planDetails=true&quotaForDisabled=true"
+    #     storage_headers = {
+    #         "appid": "1141147648",
+    #         "referer": "https://onedrive.live.com/",
+    #     }
 
     logger.debug(f"Profile name: {name}")
     logger.debug(f"Email: {email}")
