@@ -28,7 +28,7 @@ jobs:
     
     outputs:
           Folder: ${{ steps.getname.outputs.foldername }}
-          Mode: ${{ steps.getname.outputs.modename }}
+          Mode: ${{ steps.getmode.outputs.modename }}
     
     steps:
           - name: Get folder name from current workflow name
@@ -37,17 +37,17 @@ jobs:
               IFS=-
               read -ra Arr <<< ${{ github.workflow }}
               folder=${Arr[1]}
-              echo "folder name is $folder"
               echo "foldername=$folder" >>$GITHUB_OUTPUT
+              echo "folder name is $folder"
               
           - name: Is the workflow manually or automatically triggered?
             id: getmode
-            run:  |
+            run: |
               IFS=-
               read -ra Arr <<< ${{ github.workflow }}
               mode=${Arr[2]}
-              echo "Trigger mode: $mode"
               echo "modename=$mode" >>$GITHUB_OUTPUT
+              echo "Trigger mode: $mode"
               
               
   call-workflow:
