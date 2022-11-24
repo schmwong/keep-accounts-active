@@ -27,8 +27,8 @@ jobs:
     # https://github.com/orgs/community/discussions/26313
     
     outputs:
-          Folder: ${{ env.foldername }}
-          Mode: ${{ env.modename }}
+          Folder: ${{ steps.getname.outputs.foldername }}
+          Mode: ${{ steps.getname.outputs.modename }}
     
     steps:
           - name: Get folder name from current workflow name
@@ -38,7 +38,7 @@ jobs:
               read -ra Arr <<< ${{ github.workflow }}
               folder=${Arr[1]}
               echo "folder name is $folder"
-              echo "foldername=onedrive" >> $GITHUB_ENV
+              echo "foldername=$folder" >>$GITHUB_OUTPUT
               
           - name: Is the workflow manually or automatically triggered?
             id: getmode
@@ -47,7 +47,7 @@ jobs:
               read -ra Arr <<< ${{ github.workflow }}
               mode=${Arr[2]}
               echo "Trigger mode: $mode"
-              echo "modename=manual" >> $GITHUB_ENV
+              echo "modename=$mode" >>$GITHUB_OUTPUT
               
               
   call-workflow:
