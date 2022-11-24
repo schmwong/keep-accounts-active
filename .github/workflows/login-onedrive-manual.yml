@@ -27,8 +27,8 @@ jobs:
     # https://github.com/orgs/community/discussions/26313
     
     outputs:
-          folder: ${{ steps.getname.outputs.foldername }}
-          mode: ${{ steps.getmode.outputs.modename }}
+          Folder: ${{ env.foldername }}
+          Mode: ${{ env.modename }}
     
     steps:
           - name: Get folder name from current workflow name
@@ -38,7 +38,7 @@ jobs:
               read -ra Arr <<< ${{ github.workflow }}
               folder=${Arr[1]}
               echo "folder name is $folder"
-              echo "foldername=$folder" >> $env:GITHUB_OUTPUT
+              echo "foldername=$folder" >> $GITHUB_ENV
               
           - name: Is the workflow manually or automatically triggered?
             id: getmode
@@ -47,15 +47,15 @@ jobs:
               read -ra Arr <<< ${{ github.workflow }}
               mode=${Arr[2]}
               echo "Trigger mode: $mode"
-              echo "modename=$mode" >> $env:GITHUB_OUTPUT
+              echo "modename=$mode" >> $GITHUB_ENV
               
               
   call-workflow:
     needs: get-folder-name
     uses: ./.github/workflows/reusable-autolog.yml
     with:
-      folder: ${{ needs.get-folder-name.outputs.folder }}
-      mode: ${{ needs.get-folder-name.outputs.mode }}
+      folder: ${{ needs.get-folder-name.outputs.Folder }}
+      mode: ${{ needs.get-folder-name.outputs.Mode }}
       platform-name: OneDrive
     secrets:
       WORKFLOW_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
