@@ -47,7 +47,7 @@ jobs:
               read -ra Arr <<< ${{ github.workflow }}
               mode=${Arr[2]}
               echo "Trigger mode: $mode"
-              echo "modename=$mode" >>$GITHUB_OUTPUT
+              echo "modename=$mode" >> $env:GITHUB_OUTPUT
               
               
   call-workflow:
