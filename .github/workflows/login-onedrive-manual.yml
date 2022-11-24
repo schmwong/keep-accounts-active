@@ -38,7 +38,7 @@ jobs:
               read -ra Arr <<< ${{ github.workflow }}
               folder=${Arr[1]}
               echo "folder name is $folder"
-              echo "foldername=$folder" >> $GITHUB_ENV
+              echo "foldername=onedrive" >> $GITHUB_ENV
               
           - name: Is the workflow manually or automatically triggered?
             id: getmode
@@ -47,7 +47,7 @@ jobs:
               read -ra Arr <<< ${{ github.workflow }}
               mode=${Arr[2]}
               echo "Trigger mode: $mode"
-              echo "modename=$mode" >> $GITHUB_ENV
+              echo "modename=manual" >> $GITHUB_ENV
               
               
   call-workflow:
