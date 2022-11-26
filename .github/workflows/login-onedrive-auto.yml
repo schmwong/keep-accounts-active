@@ -21,6 +21,9 @@ jobs:
     # DEPRECATED: set-output commands
     # echo "::set-output name=foldername::$folder"
     # echo "::set-output name=modename::$mode"
+    # FUTURE WORK: redirect to $GITHUB_OUTPUT
+    # echo "foldername=$folder" >> $GITHUB_OUTPUT
+    # echo "modename=$mode" >> $GITHUB_OUTPUT
     # ---------------------------------------------
     # Solution to pass variables between jobs in a workflow without using artifacts
     # https://user-images.githubusercontent.com/6890249/181096846-f7fdc90f-8d43-4bb9-9290-fefc9ad0bd84.png
@@ -38,7 +41,7 @@ jobs:
         read -ra Arr <<< ${{ github.workflow }}
         folder=${Arr[1]}
         echo "folder name is $folder"
-        echo "foldername=$folder" >> $GITHUB_OUTPUT
+        echo "::set-output name=foldername::$folder"
 
     - name: Is the workflow manually or automatically triggered?
       id: getmode
@@ -47,7 +50,7 @@ jobs:
         read -ra Arr <<< ${{ github.workflow }}
         mode=${Arr[2]}
         echo "Trigger mode: $mode"
-        echo "modename=$mode" >> $GITHUB_OUTPUT
+        echo "::set-output name=modename::$mode"
 
 
   call-workflow:
