@@ -94,7 +94,7 @@ def onedrive_login(instance):
         # Browser session to generate new csv log file
         logger = instance.logger
         instance.iframe_login(pw, iframe_sel)
-        instance.redirect(href_sel="a.od-QuotaBar-link")
+        instance.redirect(href_sel="a[class*='od-QuotaBar']")
         query_onedrive_storage(instance)
         logger.info("Tasks complete. Closing browser")
 
