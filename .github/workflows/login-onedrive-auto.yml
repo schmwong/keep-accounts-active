@@ -4,7 +4,7 @@ name: login-onedrive-auto
 
 on:
   schedule:
-  - cron: 26 14 * * *             # runs once a day at 06:26 UTC (14:26 SGT)
+  - cron: 26 06 * * *             # runs once a day at 06:26 UTC (14:26 SGT)
 
 
 concurrency:
