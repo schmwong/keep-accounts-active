@@ -37,7 +37,7 @@ jobs:
               IFS=-
               read -ra Arr <<< ${{ github.workflow }}
               folder=${Arr[1]}
-              echo "foldername=$folder" >>$GITHUB_OUTPUT
+              echo "::set-output name=foldername::$folder"
               echo "folder name is $folder"
               
           - name: Is the workflow manually or automatically triggered?
@@ -46,7 +46,7 @@ jobs:
               IFS=-
               read -ra Arr <<< ${{ github.workflow }}
               mode=${Arr[2]}
-              echo "modename=$mode" >>$GITHUB_OUTPUT
+              echo "::set-output name=modename::$mode"
               echo "Trigger mode: $mode"
               
               
