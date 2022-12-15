@@ -17,6 +17,8 @@ on:
         required: false
       PWD_YAHOO_1:
         required: false
+      SMU:
+        required: false
         
   
     # inputs in this case are arguments passed from caller workflow
@@ -50,6 +52,7 @@ env:
     ONEDRIVE: ${{ secrets.ONEDRIVE }}
     USR_YAHOO_1: ${{ secrets.USR_YAHOO_1 }}
     PWD_YAHOO_1: ${{ secrets.PWD_YAHOO_1 }}
+    SMU: ${{ secrets.SMU }}
     
     
 
@@ -108,7 +111,9 @@ jobs:
             
   schedule-maintenance:
     needs: login
-    if: always()       # always runs after login job regardless of whether login job succeeded.
+    if: always() && ${{ inputs.folder }}!="smu" 
+    # always runs after login job regardless of whether login job succeeded.
+    # Does not run for SMU script
     runs-on: ubuntu-latest
 
     steps:
