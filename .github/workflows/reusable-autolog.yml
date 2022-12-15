@@ -111,7 +111,7 @@ jobs:
             
   schedule-maintenance:
     needs: login
-    if: always() && ${{ inputs.folder }}!="smu" 
+    if: ${{ inputs.folder }} != "smu" 
     # always runs after login job regardless of whether login job succeeded.
     # Does not run for SMU script
     runs-on: ubuntu-latest
