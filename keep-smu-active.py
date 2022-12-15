@@ -2,17 +2,16 @@
 # playwright install firefox
 # pip install python-dotenv
 
+import json
+from dotenv import load_dotenv
+from log_concat import update_logs
+from login_logger import LoginLogger
+from logging_formatter import Year
+from playwright.sync_api import sync_playwright, TimeoutError
+import os
 import sys
 
 sys.dont_write_bytecode = True
-
-import os
-from playwright.sync_api import sync_playwright, TimeoutError
-from logging_formatter import Year
-from login_logger import LoginLogger
-from log_concat import update_logs
-from dotenv import load_dotenv
-import json
 
 
 load_dotenv()
@@ -46,7 +45,7 @@ def smu_login(instance):
     with sync_playwright() as pw:
         logger = instance.logger
         logger.info("Launching browser")
-        browser = pw.firefox.launch(args=["--start-maximized"], headless=False)
+        browser = pw.firefox.launch(args=["--start-maximized"], headless=True)
         page = browser.new_page(no_viewport=True)
         page.route(
             "**/*",
@@ -64,7 +63,8 @@ def smu_login(instance):
         page.fill(instance.pwd_sel, instance.pwd)
         page.keyboard.press("Enter")
         logger.info("Logging in")
-        page.wait_for_url(instance.homepage, wait_until="networkidle", timeout=120_000)
+        page.wait_for_url(instance.homepage,
+                          wait_until="networkidle", timeout=120_000)
         logger.info("Logged in successfully")
         points = page.query_selector(
             "//div[text()='points']//preceding-sibling::div"
