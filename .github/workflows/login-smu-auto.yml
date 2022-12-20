@@ -4,11 +4,11 @@ name: login-smu-auto
 
 on:
   schedule:
-    # Runs every 78 minutes
+    # Runs every 88 minutes
     # Based on solution by Bill Weiss to run every 90 minutes
     # https://serverfault.com/questions/123629/run-task-every-90-minutes-with-cron/123633#123633
   - cron: 18 0-21/3 * * *            # Run every 18th minute for every third hour for 0-21 hours
-  - cron: 36 1-22/3 * * *            # Run every 36th minute for every third hour for 1-22 hours
+  - cron: 46 1-22/3 * * *            # Run every 46th minute for every third hour for 1-22 hours
 
 
 
