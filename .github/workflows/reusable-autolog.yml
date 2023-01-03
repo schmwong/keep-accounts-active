@@ -111,11 +111,10 @@ jobs:
             
   schedule-maintenance:
     needs: login
-    if: |
-      inputs.folder != 'smu' &&
-      (needs.login.result == 'success' || needs.login.result == 'failure')
-    # always runs after login job regardless of whether login job succeeded.
-    # Does not run for SMU script
+    if: inputs.folder != 'smu' && (needs.login.result == 'success' || needs.login.result == 'failure')
+        # always runs after login job regardless of whether login job succeeded.
+        # Does not run for SMU script
+    
     runs-on: ubuntu-latest
 
     steps:
