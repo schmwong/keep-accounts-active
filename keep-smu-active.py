@@ -68,8 +68,9 @@ def smu_login(instance):
         logger.info("Logged in successfully")
         points = page.query_selector(
             "//div[text()='points']//preceding-sibling::div"
-        ).inner_text()
-        logger.debug(f"Points: {points}")
+        ).get_attribute("data-value")
+        # {:,} to add commas (thousands separator) to numbers
+        logger.debug(f"Points: {int(points):,}")
         logger.info("Tasks complete. Closing browser")
         page.click(logout_button)
 
@@ -95,5 +96,5 @@ if __name__ == "__main__":
             filename=mkfilename(f"smu_{i}"),
         )
         smu_login(instance)
-        update_logs(instance)
+        # update_logs(instance)
         i += 1
