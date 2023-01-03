@@ -1,14 +1,9 @@
 # This workflow is automatically triggered and will call the reusable workflow.
-name: login-smu-auto
+name: login-smu-manual
 
 
 on:
-  schedule:
-    # Runs every 88 minutes
-    # Based on solution by Bill Weiss to run every 90 minutes
-    # https://serverfault.com/questions/123629/run-task-every-90-minutes-with-cron/123633#123633
-  - cron: 18 0-21/3 * * *            # Run every 18th minute for every third hour for 0-21 hours
-  - cron: 46 1-22/3 * * *            # Run every 46th minute for every third hour for 1-22 hours
+  - workflow_dispatch
 
 
 
@@ -39,7 +34,7 @@ jobs:
         folder=${Arr[1]}
         echo "folder name is $folder"
         echo "::set-output name=foldername::$folder"
-
+        
     - name: Is the workflow manually or automatically triggered?
       id: getmode
       run: |
@@ -48,8 +43,8 @@ jobs:
         mode=${Arr[2]}
         echo "Trigger mode: $mode"
         echo "::set-output name=modename::$mode"
-
-
+        
+        
   call-workflow:
     needs: workflow-info
     uses: ./.github/workflows/reusable-autolog.yml
