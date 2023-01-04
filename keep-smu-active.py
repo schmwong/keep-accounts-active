@@ -96,5 +96,5 @@ if __name__ == "__main__":
             filename=mkfilename(f"smu_{i}"),
         )
         smu_login(instance)
-        # update_logs(instance)
+        update_logs(instance)
         i += 1
