@@ -75,7 +75,8 @@ def smu_login(instance):
         try:
             page.click(logout_button)
         except Exception as e:
-            logger.error(f"Exception occurred: {e}")
+            for line in e.split("\n"):
+                logger.error(line)
 
     # Remove FileHandlder to prevent reopening the previous instance's file in the next instance
     # due to the Class Variable getting recreated during "self.logger.addHandler(self.DuoHandler)"
