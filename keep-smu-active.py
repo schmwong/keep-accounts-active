@@ -72,11 +72,11 @@ def smu_login(instance):
         # {:,} to add commas (thousands separator) to numbers
         logger.debug(f"Points: {int(points):,}")
         logger.info("Tasks complete. Closing browser")
-        try:
-            page.click(logout_button)
-        except Exception as e:
-            for line in str(e).split("\n"):
-                logger.error(line)
+        # try:
+        #     page.click(logout_button)
+        # except Exception as e:
+        #     for line in str(e).split("\n"):
+        #         logger.error(line)
 
     # Remove FileHandlder to prevent reopening the previous instance's file in the next instance
     # due to the Class Variable getting recreated during "self.logger.addHandler(self.DuoHandler)"
