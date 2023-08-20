@@ -88,7 +88,7 @@ def query_onedrive_storage(instance):
     logger.debug(f"Profile name: {name}")
     logger.debug(f"Email: {email}")
     logger.debug(f"Plan: {plan}")
-    logger.debug(f"{storage_name}: {storage_used} used of {storage_total}")
+    logger.debug(f"{storage_name}: {storage_used} {storage_total}")
     #
     # =================================== #
 
