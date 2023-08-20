@@ -60,15 +60,19 @@ def query_onedrive_storage(instance):
 
     plan = page.query_selector(
         """div:nth-child(5) > table > tbody > tr:nth-child(1) > td[class*='storageInfoPlansTypeTextCell'] > span > span"""
-    ).inner_text()
+    ).inner_text().strip()
 
     storage_name = page.query_selector(
         'div[class*="storageInfoTotalUsed"]'
-    ).inner_text()
+    ).inner_text().strip()
 
     storage_used = page.query_selector(
-        'div[class*="progressBarDescription_"] > span'
-    ).inner_text()
+        'div[class*=quotaUsage] > div[class*=quotaUsed]'
+    ).inner_text().strip()
+
+    storage_total = page.query_selector(
+        'div[class*=quotaUsage] > div[class*=quotaTotal]'
+    ).inner_text().strip()
 
     # Future work: Scraping info from API endpoint instead of rendered webpage
     #
@@ -84,7 +88,7 @@ def query_onedrive_storage(instance):
     logger.debug(f"Profile name: {name}")
     logger.debug(f"Email: {email}")
     logger.debug(f"Plan: {plan}")
-    logger.debug(f"{storage_name}: {storage_used}")
+    logger.debug(f"{storage_name}: {storage_used} used of {storage_total}")
     #
     # =================================== #
 
