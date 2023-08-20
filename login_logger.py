@@ -150,6 +150,7 @@ class LoginLogger:
             ).get_attribute("href")
         elif "url" in kwargs:
             self.dashboard_url = kwargs.get("url")
+        self.dashboard_url.replace("#", "?")
         page.goto(self.dashboard_url)
         page.wait_for_timeout(2529)
 
