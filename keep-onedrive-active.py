@@ -31,7 +31,7 @@ onedrive_signin = "https://onedrive.live.com/login/"
 onedrive_usr_sel = "//input[@type='email]"
 onedrive_pwd_sel = "//input[@type='password']"
 onedrive_homepage = "https://onedrive.live.com/?id=root"
-iframe_sel = "iframe.signInFrame"
+iframe_sel = "//iframe[@class='signInFrame']"
 
 
 def mkfilename(a):
