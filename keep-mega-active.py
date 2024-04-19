@@ -82,7 +82,7 @@ def mega_login(instance):
     with sync_playwright() as pw:
         logger = instance.logger
         instance.one_step_login(pw, "#login_form > button")
-        instance.redirect(href_sel="a.dashboard-link")
+        instance.redirect(button_sel="div[name*=dashboard][aria-role=button]")
         query_mega_storage(instance)
         logger.info("Tasks complete. Closing browser")
 
