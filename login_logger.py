@@ -144,6 +144,11 @@ class LoginLogger:
     def redirect(self, **kwargs):
         logger = self.logger
         page = self.tab
+        if "button_sel" in kwargs:
+            page.locator(kwargs.get("button_sel")).click()
+            page.wait_for_load_state("domcontentloaded")
+            self.dashboard_url = page.url
+            return 0
         if "href_sel" in kwargs:
             self.dashboard_url = self.url + page.locator(
                 kwargs.get("href_sel")
