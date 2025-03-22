@@ -102,7 +102,7 @@ def onedrive_login(instance):
         query_onedrive_storage(instance)
         logger.info("Tasks complete. Closing browser")
 
-    # Remove FileHandlder to prevent reopening the previous instance's file in the next instance
+    # Remove FileHandler to prevent reopening the previous instance's file in the next instance
     # due to the Class Variable getting recreated during "self.logger.addHandler(self.DuoHandler)"
     logger.removeHandler(instance.DuoHandler)
 

@@ -132,6 +132,12 @@ class LoginLogger:
         frame = page.frame_locator(frame_locator).locator(self.usr_sel)
         frame.fill(self.usr)
         page.keyboard.press("Enter")
+        page.wait_for_timeout(2529)
+        # --- Email confirmation bypass --- #
+        if (page.locator("div#proofConfirmationTitle").count() > 0
+                and page.locator("div#proofConfirmationTitle").inner_text().lower() == "verify your email"):
+            page.get_by_role("button").get_by_text("Use your password instead").click()
+        # --------------------------------- #
         page.fill(self.pwd_sel, self.pwd)
         page.keyboard.press("Enter")
         page.wait_for_timeout(2529)
