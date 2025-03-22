@@ -31,8 +31,8 @@ load_dotenv()
 cred_dict = json.loads(os.getenv("MEGA"))
 
 
-mega = "https://mega.nz"
-mega_signin = mega + "/login"
+mega = "https://mega.nz/"
+mega_signin = mega + "login"
 mega_usr_sel = "input#login-name2"
 mega_pwd_sel = "input#login-password2"
 mega_homepage = "https://mega.nz/fm/recents"
@@ -82,7 +82,7 @@ def mega_login(instance):
     with sync_playwright() as pw:
         logger = instance.logger
         instance.one_step_login(pw, "#login_form > button")
-        instance.redirect(button_sel="div[name*=dashboard][aria-role=button]")
+        instance.redirect(href_sel="a.mega-component.to-my-profile.nav-elem.text-only.link")
         query_mega_storage(instance)
         logger.info("Tasks complete. Closing browser")
 
