@@ -135,14 +135,14 @@ class LoginLogger:
         page.wait_for_timeout(2529)
         # --- Email confirmation bypass --- #
         if (page.locator("input#proof-confirmation-email-input").count() > 0
-                and page.locator("h1[data-testid='title']").inner_text().lower() == "verify your email"):
+                and page.locator("h1[data-testid=title]").inner_text().lower() == "verify your email"):
             page.get_by_role("button").get_by_text("Use your password").click()
 
         # --------------------------------- #
         page.fill(self.pwd_sel, self.pwd)
         page.keyboard.press("Enter")
         page.wait_for_timeout(2529)
-        page.locator('button[data-testid="primaryButton"]').click()
+        page.locator("button[data-testid=primaryButton]").click()
         
         # page.keyboard.press("Enter")
         logger.info("Logging in")
