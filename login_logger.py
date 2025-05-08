@@ -137,6 +137,7 @@ class LoginLogger:
         if (page.locator("input#proof-confirmation-email-input").count() > 0
                 and page.locator("h1[data-testid='title']").inner_text().lower() == "verify your email"):
             page.get_by_role("button").get_by_text("Use your password").click()
+
         # --------------------------------- #
         page.fill(self.pwd_sel, self.pwd)
         page.keyboard.press("Enter")
@@ -152,6 +153,11 @@ class LoginLogger:
     def redirect(self, **kwargs):
         logger = self.logger
         page = self.tab
+        if "button_sel" in kwargs:
+            page.locator(kwargs.get("button_sel")).click()
+            page.wait_for_load_state("domcontentloaded")
+            self.dashboard_url = page.url
+            return 0
         if "href_sel" in kwargs:
             self.dashboard_url = self.url + page.locator(
                 kwargs.get("href_sel")
