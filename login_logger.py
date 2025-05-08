@@ -143,7 +143,6 @@ class LoginLogger:
         page.keyboard.press("Enter")
         page.wait_for_timeout(2529)
         page.locator("button[data-testid=primaryButton]").click()
-        
         # page.keyboard.press("Enter")
         logger.info("Logging in")
         page.wait_for_url(self.homepage + "**", wait_until="domcontentloaded")
