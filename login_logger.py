@@ -134,14 +134,16 @@ class LoginLogger:
         page.keyboard.press("Enter")
         page.wait_for_timeout(2529)
         # --- Email confirmation bypass --- #
-        if (page.locator("div#proofConfirmationTitle").count() > 0
-                and page.locator("div#proofConfirmationTitle").inner_text().lower() == "verify your email"):
-            page.get_by_role("button").get_by_text("Use your password instead").click()
+        if (page.locator("input#proof-confirmation-email-input").count() > 0
+                and page.locator("h1[data-testid='title']").inner_text().lower() == "verify your email"):
+            page.get_by_role("button").get_by_text("Use your password").click()
         # --------------------------------- #
         page.fill(self.pwd_sel, self.pwd)
         page.keyboard.press("Enter")
         page.wait_for_timeout(2529)
-        page.keyboard.press("Enter")
+        page.locator('button[data-testid="primaryButton"]').click()
+        
+        # page.keyboard.press("Enter")
         logger.info("Logging in")
         page.wait_for_url(self.homepage + "**", wait_until="domcontentloaded")
         logger.info("Logged in successfully")
