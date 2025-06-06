@@ -81,7 +81,7 @@ def mega_login(instance):
     # Browser session to generate new csv log file
     with sync_playwright() as pw:
         logger = instance.logger
-        instance.one_step_login(pw, "#login_form > button")
+        instance.one_step_login(pw, "#login_form button.login-button")
         instance.redirect(href_sel="a.mega-component.to-my-profile.nav-elem.text-only.link")
         query_mega_storage(instance)
         logger.info("Tasks complete. Closing browser")
