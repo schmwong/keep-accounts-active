@@ -147,7 +147,10 @@ class LoginLogger:
         page.locator("button[data-testid=primaryButton]").click()
         # page.keyboard.press("Enter")
         logger.info("Logging in")
-        page.wait_for_url(self.homepage + "**", wait_until="domcontentloaded")
+        try:
+            page.wait_for_url(self.homepage + "**", wait_until="domcontentloaded")
+        except:
+            page.wait_for_url(re.compile(rf"{self.url}"))
         logger.info("Logged in successfully")
         self.tab = page
 
